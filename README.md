@@ -7,9 +7,9 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-0.9.6.151-blue.svg)](https://github.com/toohighonthehog/RJAutoMover)
+[![Version](https://img.shields.io/badge/version-0.9.6.151-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
-[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/toohighonthehog/RJAutoMover-releases/blob/main/LICENSE.txt)
 
 </div>
 
@@ -17,7 +17,7 @@
 
 ## 📥 Download & Install
 
-**[Download RJAutoMoverSetup.exe](https://github.com/toohighonthehog/RJAutoMover/blob/main/installer/RJAutoMoverSetup.exe)** (Version 0.9.6.151)
+**[Download RJAutoMoverSetup.exe](https://github.com/toohighonthehog/RJAutoMover-releases/raw/main/RJAutoMoverSetup.exe)**
 
 Simply run the installer with administrator privileges - it handles everything automatically, including service installation and configuration.
 
@@ -102,7 +102,7 @@ RJAutoMover consists of three integrated components:
 
 ### Installation Steps
 
-1. **Download** [RJAutoMoverSetup.exe](installer/RJAutoMoverSetup.exe)
+1. **Download** [RJAutoMoverSetup.exe](https://github.com/toohighonthehog/RJAutoMover-releases/raw/main/RJAutoMoverSetup.exe)
 
 2. **Run the installer** with administrator privileges (right-click → "Run as administrator")
 
@@ -212,8 +212,8 @@ Application:
   RetryDelayMs: 5000
   FailureCooldownMs: 180000
   MemoryLimitMb: 512
-  ServiceGrpcPort: 60051
-  TrayGrpcPort: 60052
+  ServiceGrpcPort: 50060
+  TrayGrpcPort: 50061
 ```
 
 ### Configuration Options
@@ -401,8 +401,8 @@ If `P:\` is mapped to `\\server\share`, the validator will:
 | `ServiceHeartbeatMs` | Service heartbeat interval | `60000` - `3600000` ms (1-60 min) | `300000` |
 | `MemoryLimitMb` | Memory limit before restart | `128` - `4096` MB | `512` |
 | `MemoryCheckMs` | Memory check interval | `30000` - `300000` ms (30 sec-5 min) | `60000` |
-| `ServiceGrpcPort` | Service gRPC port | `1024` - `65535` | `60051` |
-| `TrayGrpcPort` | Tray app gRPC port | `1024` - `65535` | `60052` |
+| `ServiceGrpcPort` | Service gRPC port | `1024` - `65535` | `50060` |
+| `TrayGrpcPort` | Tray app gRPC port | `1024` - `65535` | `50061` |
 | `LogFolder` | Custom log folder path (optional) | Any valid folder path | `.\Logs` |
 | `LogRetentionDays` | Days to retain log files before cleanup | `1` - `365` | `7` |
 | `RequireTrayApproval` | Require tray approval before moves | `true` or `false` | `false` |
@@ -426,8 +426,9 @@ If `P:\` is mapped to `\\server\share`, the validator will:
 
 ✅ **Network Ports:**
 - Must be valid port numbers (1024-65535)
-- Ensure ports are not used by other applications
-- Defaults: Service=60051, Tray=60052
+- Defaults: Service=50060, Tray=50061
+- During installation, if default ports are in use, the installer automatically finds available ports
+- Ports are configured in `config.yaml` and can be changed if needed
 
 ⚠️ **Performance Tips:**
 - Lower `ScanIntervalMs` = more responsive but higher CPU usage
@@ -646,14 +647,16 @@ RJAutoMover includes automatic version checking to notify you when updates are a
 
 The version checker compares your installed version against the latest release on GitHub:
 
-1. **Version File URL:** `https://raw.githubusercontent.com/toohighonthehog/RJAutoMover-releases/main/version.txt`
-   - Contains the NEXT version number to be compiled (development version)
-   - The actual latest released version is calculated by subtracting 1 from the final octet
-   - Example: If `version.txt` contains `0.9.5.10`, the latest released version is `0.9.5.9`
+1. **Version Source:** `https://raw.githubusercontent.com/toohighonthehog/RJAutoMover-releases/main/README.md`
+   - The README.md in the releases repository contains a `## Latest Version: X.X.X.X` header
+   - This header is automatically added when publishing a release
+   - The version checker parses this header to determine the latest released version
 
 2. **Installer URL:** `https://github.com/toohighonthehog/RJAutoMover-releases/raw/main/RJAutoMoverSetup.exe`
    - Direct link to download the latest installer from the public releases repository
    - Displayed in the update notification when a new version is available
+   - Hover over the version number in the Version tab to see this URL
+   - Ctrl+Click on the version number to download the installer directly
 
 ### Version Status Messages
 
@@ -664,19 +667,18 @@ When you open the About window's Version tab, the following messages may appear:
 - **"(Pre-release)"** - You're running a development version newer than the latest release (orange text)
 - **"(unable to confirm)"** - Version check failed (network error or timeout) (gray italic text)
 
-### Version Calculation Logic
+### Version Comparison Logic
 
 The version checker uses the following logic:
 
 ```
-Remote Version in version.txt: 0.9.5.10 (next to be compiled)
-Actual Latest Released Version: 0.9.5.9 (remote - 1)
-Your Installed Version: 0.9.5.8
+Latest Version (from README.md): 0.9.6.147
+Your Installed Version: 0.9.6.146
 
 Comparison:
-- If Latest (0.9.5.9) > Installed (0.9.5.8) → Update Available
-- If Latest (0.9.5.9) = Installed (0.9.5.9) → Latest Version
-- If Latest (0.9.5.9) < Installed (0.9.5.10) → Pre-release
+- If Latest (0.9.6.147) > Installed (0.9.6.146) → Update Available
+- If Latest (0.9.6.147) = Installed (0.9.6.147) → Latest Version
+- If Latest (0.9.6.147) < Installed (0.9.6.148) → Pre-release
 ```
 
 ### Automatic Refresh
@@ -811,7 +813,7 @@ Persistent activity history is stored in the `Data\` folder:
 ### Service Won't Start
 - Check Windows Event Viewer for error details
 - Verify service account permissions
-- Ensure ports 60051 and 60052 are not in use
+- Ensure configured ports (default: 50060 and 50061) are not in use by other applications
 - Check `config.yaml` for syntax errors
 
 ### Files Not Moving
@@ -838,19 +840,13 @@ Persistent activity history is stored in the `Data\` folder:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE.txt](LICENSE.txt) file for details.
+This project is licensed under the MIT License - see the [LICENSE.txt](https://github.com/toohighonthehog/RJAutoMover-releases/blob/main/LICENSE.txt) file for details.
 
 ---
 
 ## 🤝 Contributing
 
 Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
-
----
-
-## 📧 Support
-
-For issues, questions, or feature requests, please visit the [GitHub Issues](https://github.com/toohighonthehog/RJAutoMover/issues) page.
 
 ---
 
