@@ -1,4 +1,4 @@
-## Latest Version: 0.9.6.152
+## Latest Version: 0.9.6.153
 
 <div align="center">
   <img src="icons/base.ico" alt="RJAutoMover Logo" width="128" height="128">
@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-0.9.6.152-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
+[![Version](https://img.shields.io/badge/version-0.9.6.153-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/toohighonthehog/RJAutoMover-releases/blob/main/LICENSE.txt)
 
@@ -405,7 +405,6 @@ If `P:\` is mapped to `\\server\share`, the validator will:
 | `TrayGrpcPort` | Tray app gRPC port | `1024` - `65535` | `50061` |
 | `LogFolder` | Custom log folder path (optional) | Any valid folder path | `.\Logs` |
 | `LogRetentionDays` | Days to retain log files before cleanup | `1` - `365` | `7` |
-| `RequireTrayApproval` | Require tray approval before moves | `true` or `false` | `false` |
 | `ActivityHistoryEnabled` | Master switch for activity logging (see below) | `true` or `false` | `true` |
 | `ActivityHistoryMaxRecords` | Maximum database records (see below) | `100` - `50000` | `5000` |
 | `ActivityHistoryRetentionDays` | Auto-purge records older than X days (see below) | `1` - `365` | `90` |
@@ -488,24 +487,12 @@ DestinationFolder: <InstallingUserDocuments>\Sorted
 - Count-based cleanup is real-time (after every insert)
 - Time-based cleanup is on-demand (service startup only)
 
-**Autonomous Operation** allows the service to run without tray approval:
+**Autonomous Operation** - The service operates independently:
 
-```yaml
-Application:
-  RequireTrayApproval: false  # Service operates independently (default)
-  ActivityHistoryEnabled: true  # All transfers logged to database
-```
-
-When `RequireTrayApproval: false` (default):
-- ✅ Service moves files without waiting for tray icon confirmation
+- ✅ Service moves files automatically without requiring user interaction
 - ✅ Works even when no user is logged in
 - ✅ All transfers recorded in persistent database
 - ✅ Any user who logs in can view full history in tray
-
-When `RequireTrayApproval: true` (legacy mode):
-- Service waits for tray icon approval before each file move
-- Requires tray icon to be running
-- Original behavior from earlier versions
 
 **Database Resilience:**
 - Automatic corruption detection and backup
@@ -846,7 +833,7 @@ This project is licensed under the MIT License - see the [LICENSE.txt](https://g
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit issues, feature requests, or pull requests.
+Contributions are welcome! Please feel free to submit issues or feature requests.
 
 ---
 
