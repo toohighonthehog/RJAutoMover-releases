@@ -1,3 +1,5 @@
+## Latest Version: 0.9.6.147
+
 <div align="center">
   <img src="icons/base.ico" alt="RJAutoMover Logo" width="128" height="128">
   <h1>RJAutoMover</h1>
@@ -5,7 +7,7 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-0.9.6.146-blue.svg)](https://github.com/toohighonthehog/RJAutoMover)
+[![Version](https://img.shields.io/badge/version-0.9.6.147-blue.svg)](https://github.com/toohighonthehog/RJAutoMover)
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE.txt)
 
@@ -15,7 +17,7 @@
 
 ## 📥 Download & Install
 
-**[Download RJAutoMoverSetup.exe](https://github.com/toohighonthehog/RJAutoMover/blob/main/installer/RJAutoMoverSetup.exe)** (Version 0.9.6.146)
+**[Download RJAutoMoverSetup.exe](https://github.com/toohighonthehog/RJAutoMover/blob/main/installer/RJAutoMoverSetup.exe)** (Version 0.9.6.147)
 
 Simply run the installer with administrator privileges - it handles everything automatically, including service installation and configuration.
 
