@@ -1,4 +1,4 @@
-## Latest Version: 0.9.6.178
+## Latest Version: 0.9.6.183
 
 <div align="center">
   <img src="icons/base.ico" alt="RJAutoMover Logo" width="128" height="128">
@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-0.9.6.178-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
+[![Version](https://img.shields.io/badge/version-0.9.6.183-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/toohighonthehog/RJAutoMover-releases/blob/main/LICENSE.txt)
 
@@ -69,20 +69,21 @@ RJAutoMover consists of three integrated components:
 - Real-time validation of configuration settings
 - Features:
   - **File Rules Management** - Add, edit, duplicate, and delete rules
-  - **Application Settings** - Configure timing, memory limits, ports, and logging options
+  - **Application Settings** - Configure timing, memory limits, and logging options
   - **Validation** - Comprehensive validation before saving (folder permissions, path conflicts, extension overlaps)
   - **Service Integration** - Option to automatically restart the service after saving the active config
 - Available in Start Menu: "RJAutoMover > Configuration Editor"
 
 **Communication:** Service and Tray components communicate via gRPC over localhost.
 
-**Port Configuration:**
-- Default ports: Service=50060, Tray=50061
-- During fresh installation, the installer automatically discovers available ports to prevent conflicts
-- Checks Windows reserved port ranges and ports currently in use
-- If defaults are unavailable, finds two consecutive free ports (scans 50000-65000)
-- Ports are fully configurable in `config.yaml` if manual changes are needed
-- Both Service and Tray must be restarted after changing ports
+**Dynamic Port Discovery:**
+- Ports are discovered dynamically at runtime (NOT stored in configuration)
+- This prevents conflicts with Windows reserved port ranges (which can change between reboots due to Hyper-V, WSL2, Docker, etc.)
+- Preferred starting port: 51000 (outside typical Windows reserved ranges)
+- Port discovery files are created at startup:
+  - Service writes to: `C:\ProgramData\RJAutoMover\service.port`
+  - Tray writes to: `C:\ProgramData\RJAutoMover\tray.port`
+- If connection is lost, apps re-read discovery files to handle port changes after restarts
 
 **Tray Autostart:**
 - The tray application automatically starts at Windows login for all users
@@ -212,8 +213,8 @@ Application:
   RetryDelayMs: 5000
   FailureCooldownMs: 180000
   MemoryLimitMb: 512
-  ServiceGrpcPort: 50060
-  TrayGrpcPort: 50061
+  LogFolder: C:\ProgramData\RJAutoMover\Logs
+  LogRetentionDays: 7
 ```
 
 ### Configuration Options
@@ -401,9 +402,7 @@ If `P:\` is mapped to `\\server\share`, the validator will:
 | `ServiceHeartbeatMs` | Service heartbeat interval | `60000` - `3600000` ms (1-60 min) | `300000` |
 | `MemoryLimitMb` | Memory limit before restart | `128` - `4096` MB | `512` |
 | `MemoryCheckMs` | Memory check interval | `30000` - `300000` ms (30 sec-5 min) | `60000` |
-| `ServiceGrpcPort` | Service gRPC port | `1024` - `65535` | `50060` |
-| `TrayGrpcPort` | Tray app gRPC port | `1024` - `65535` | `50061` |
-| `LogFolder` | Custom log folder path (optional) | Any valid folder path | `.\Logs` |
+| `LogFolder` | Custom log folder path (optional) | Any valid folder path | `C:\ProgramData\RJAutoMover\Logs` |
 | `LogRetentionDays` | Days to retain log files before cleanup | `1` - `365` | `7` |
 | `ActivityHistoryEnabled` | Master switch for activity logging (see below) | `true` or `false` | `true` |
 | `ActivityHistoryMaxRecords` | Maximum database records (see below) | `100` - `50000` | `5000` |
