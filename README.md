@@ -1,4 +1,4 @@
-## Latest Version: 0.9.6.192
+## Latest Version: 0.9.6.195
 
 <div align="center">
   <img src="icons/base.ico" alt="RJAutoMover Logo" width="128" height="128">
@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-0.9.6.192-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
+[![Version](https://img.shields.io/badge/version-0.9.6.195-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/toohighonthehog/RJAutoMover-releases/blob/main/LICENSE.txt)
 
@@ -184,7 +184,7 @@ If files aren't moving and logs show access denied errors:
 
 ## 🔧 Configuration
 
-Configuration is managed through `config.yaml` located in the installation directory (`C:\Program Files\RJAutoMover` by default).
+Configuration is managed through `config.yaml` located at `C:\ProgramData\RJAutoMover\config.yaml`.
 
 ### Basic Configuration Structure
 
@@ -422,12 +422,6 @@ If `P:\` is mapped to `\\server\share`, the validator will:
 ✅ **Resource Limits:**
 - `MemoryLimitMb`: 128 - 4,096 MB (service auto-restarts if exceeded)
 
-✅ **Network Ports:**
-- Must be valid port numbers (1024-65535)
-- Defaults: Service=50060, Tray=50061
-- During installation, if default ports are in use, the installer automatically finds available ports
-- Ports are configured in `config.yaml` and can be changed if needed
-
 ⚠️ **Performance Tips:**
 - Lower `ScanIntervalMs` = more responsive but higher CPU usage
 - Higher `RetryDelayMs` = more resilient but slower recovery
@@ -506,7 +500,7 @@ You can edit the configuration in two ways:
 #### Option 1: Configuration Editor (Recommended)
 
 1. **Launch** the Configuration Editor from Start Menu: "RJAutoMover > Configuration Editor"
-2. **Load** the configuration file (default: `C:\Program Files\RJAutoMover\config.yaml`)
+2. **Load** the configuration file (default: `C:\ProgramData\RJAutoMover\config.yaml`)
 3. **Edit** file rules and application settings using the visual interface:
    - Add, edit, duplicate, or delete rules
    - Configure application settings with descriptions and validation
@@ -524,7 +518,7 @@ The Configuration Editor provides:
 #### Option 2: Manual Editing
 
 1. **Stop the service** (via tray icon or Services)
-2. **Edit** `C:\Program Files\RJAutoMover\config.yaml` in a text editor
+2. **Edit** `C:\ProgramData\RJAutoMover\config.yaml` in a text editor
 3. **Save changes**
 4. **Restart the service**
 
@@ -799,8 +793,8 @@ Persistent activity history is stored in the `Data\` folder:
 ### Service Won't Start
 - Check Windows Event Viewer for error details
 - Verify service account permissions
-- Ensure configured ports (default: 50060 and 50061) are not in use by other applications
 - Check `config.yaml` for syntax errors
+- Check port discovery files in `C:\ProgramData\RJAutoMover\` for port binding issues
 
 ### Files Not Moving
 - Verify source folder exists and is accessible
