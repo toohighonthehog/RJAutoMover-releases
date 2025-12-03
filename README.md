@@ -1,4 +1,4 @@
-## Latest Version: 0.9.6.195
+## Latest Version: 0.9.6.197
 
 <div align="center">
   <img src="icons/base.ico" alt="RJAutoMover Logo" width="128" height="128">
@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-0.9.6.195-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
+[![Version](https://img.shields.io/badge/version-0.9.6.197-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/toohighonthehog/RJAutoMover-releases/blob/main/LICENSE.txt)
 
@@ -210,7 +210,6 @@ FileRules:
 
 Application:
   ProcessingPaused: false
-  RetryDelayMs: 5000
   FailureCooldownMs: 180000
   MemoryLimitMb: 512
   LogFolder: C:\ProgramData\RJAutoMover\Logs
@@ -394,15 +393,13 @@ If `P:\` is mapped to `\\server\share`, the validator will:
 | Parameter | Description | Valid Range | Default |
 |-----------|-------------|-------------|---------|
 | `ProcessingPaused` | Start with processing paused | `true` or `false` | `false` |
-| `RetryDelayMs` | Delay before retrying failed operations | `1000` - `30000` ms (1-30 sec) | `5000` |
 | `FailureCooldownMs` | Cooldown period after repeated failures | `0` - `180000` ms (0-3 min) | `180000` |
 | `RecheckServiceMs` | Service reconnection check interval | `5000` - `60000` ms (5-60 sec) | `30000` |
 | `RecheckTrayMs` | Tray reconnection check interval | `5000` - `60000` ms (5-60 sec) | `30000` |
 | `PauseDelayMs` | Delay when paused | `0` - `60000` ms (0-60 sec) | `0` |
 | `ServiceHeartbeatMs` | Service heartbeat interval | `60000` - `3600000` ms (1-60 min) | `300000` |
 | `MemoryLimitMb` | Memory limit before restart | `128` - `4096` MB | `512` |
-| `MemoryCheckMs` | Memory check interval | `30000` - `300000` ms (30 sec-5 min) | `60000` |
-| `LogFolder` | Custom log folder path (optional) | Any valid folder path | `C:\ProgramData\RJAutoMover\Logs` |
+| `LogFolder` | Custom log folder path (optional) | Any valid folder path or empty | System ProgramData folder |
 | `LogRetentionDays` | Days to retain log files before cleanup | `1` - `365` | `7` |
 | `ActivityHistoryEnabled` | Master switch for activity logging (see below) | `true` or `false` | `true` |
 | `ActivityHistoryMaxRecords` | Maximum database records (see below) | `100` - `50000` | `5000` |
@@ -411,20 +408,17 @@ If `P:\` is mapped to `\\server\share`, the validator will:
 **Application Configuration Validation Rules:**
 
 ✅ **Timing Intervals (all in milliseconds):**
-- `RetryDelayMs`: 1,000 - 30,000 (how long to wait before retrying failed file operations)
 - `FailureCooldownMs`: 0 - 180,000 (pause after repeated failures to prevent resource exhaustion)
 - `RecheckServiceMs`: 5,000 - 60,000 (how often tray checks service connection)
 - `RecheckTrayMs`: 5,000 - 60,000 (how often service checks tray connection)
 - `PauseDelayMs`: 0 - 60,000 (artificial delay when processing is paused)
 - `ServiceHeartbeatMs`: 60,000 - 3,600,000 (service health check interval)
-- `MemoryCheckMs`: 30,000 - 300,000 (memory monitoring interval)
 
 ✅ **Resource Limits:**
 - `MemoryLimitMb`: 128 - 4,096 MB (service auto-restarts if exceeded)
 
 ⚠️ **Performance Tips:**
 - Lower `ScanIntervalMs` = more responsive but higher CPU usage
-- Higher `RetryDelayMs` = more resilient but slower recovery
 - Higher `MemoryLimitMb` = handle more files but use more resources
 
 ### Special Folder Variables
@@ -434,12 +428,15 @@ Use these variables in folder paths for user-specific locations:
 - `<InstallingUserDownloads>` - Downloads folder of the user who installed the application
 - `<InstallingUserDocuments>` - Documents folder of the installing user
 - `<InstallingUserDesktop>` - Desktop folder of the installing user
+- `<SystemLogFolder>` - System ProgramData log folder (used for LogFolder setting)
 
 **Example:**
 ```yaml
 SourceFolder: <InstallingUserDownloads>
 DestinationFolder: <InstallingUserDocuments>\Sorted
 ```
+
+> **Note:** The `<SystemLogFolder>` placeholder is automatically replaced during installation with the system's ProgramData location (e.g., `C:\ProgramData\RJAutoMover\Logs`). If you remove or empty the `LogFolder` setting, the application will use this default location automatically.
 
 ### Activity History & Autonomous Operation
 
