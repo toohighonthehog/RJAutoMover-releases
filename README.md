@@ -1,4 +1,4 @@
-## Latest Version: 0.9.6.264
+## Latest Version: 0.9.6.283
 
 <div align="center">
   <img src="icons/base.ico" alt="RJAutoMover Logo" width="128" height="128">
@@ -7,7 +7,7 @@
 
 <div align="center">
 
-[![Version](https://img.shields.io/badge/version-0.9.6.264-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
+[![Version](https://img.shields.io/badge/version-0.9.6.283-blue.svg)](https://github.com/toohighonthehog/RJAutoMover-releases)
 [![.NET](https://img.shields.io/badge/.NET-10.0-purple.svg)](https://dotnet.microsoft.com/download/dotnet/10.0)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/toohighonthehog/RJAutoMover-releases/blob/main/LICENSE.txt)
 
@@ -212,7 +212,6 @@ Application:
   ProcessingPaused: false
   PauseDelayMs: 0
   MemoryLimitMb: 512
-  LogFolder: C:\ProgramData\RJAutoMover\Logs
   LogRetentionDays: 7
 ```
 
@@ -395,7 +394,6 @@ If `P:\` is mapped to `\\server\share`, the validator will:
 | `ProcessingPaused` | Start with processing paused | `true` or `false` | `false` |
 | `PauseDelayMs` | Delay between file operations | `0` - `60000` ms (0-60 sec) | `0` |
 | `MemoryLimitMb` | Memory limit before error mode | `128` - `4096` MB | `512` |
-| `LogFolder` | Custom log folder path (optional) | Any valid folder path or empty | System ProgramData folder |
 | `LogRetentionDays` | Days to retain log files before cleanup | `1` - `365` | `7` |
 | `ActivityHistoryEnabled` | Master switch for activity logging (see below) | `true` or `false` | `true` |
 | `ActivityHistoryMaxRecords` | Maximum database records (see below) | `100` - `50000` | `5000` |
@@ -420,15 +418,12 @@ Use these variables in folder paths for user-specific locations:
 - `<InstallingUserDownloads>` - Downloads folder of the user who installed the application
 - `<InstallingUserDocuments>` - Documents folder of the installing user
 - `<InstallingUserDesktop>` - Desktop folder of the installing user
-- `<SystemLogFolder>` - System ProgramData log folder (used for LogFolder setting)
 
 **Example:**
 ```yaml
 SourceFolder: <InstallingUserDownloads>
 DestinationFolder: <InstallingUserDocuments>\Sorted
 ```
-
-> **Note:** The `<SystemLogFolder>` placeholder is automatically replaced during installation with the system's ProgramData location (e.g., `C:\ProgramData\RJAutoMover\Logs`). If you remove or empty the `LogFolder` setting, the application will use this default location automatically.
 
 ### Activity History & Autonomous Operation
 
